@@ -21,14 +21,24 @@ const quizDiv = document.getElementById("quiz");
 const questionText = document.getElementById("question");
 const choiceButtons = document.querySelectorAll("#choices button");
 const progressText = document.getElementById("progress");
+const timeText = document.getElementById("time");
 
 let currentQuestion = 0;
 let score = 0;
+let timeLeft = 60;
 
 function startQuiz() {
 	startBtn.classList.add("hidden");
 	quizDiv.classList.remove("hidden");
 	showQuestion();
+	let timer = setInterval(() => {
+		timeLeft--;
+		timeText.innerText = `Time: ${timeLeft}s`;
+		if (timeLeft === 0) {
+			clearInterval(timer);
+			endQuiz();
+		}
+	}, 1000);
 }
 
 function showQuestion() {
@@ -39,6 +49,7 @@ function showQuestion() {
 		button.addEventListener("click", checkAnswer);
 	});
 	progressText.innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+	timeText.innerText = `Time: ${timeLeft}s`;
 }
 
 function checkAnswer(event) {
@@ -63,5 +74,3 @@ function endQuiz() {
 }
 
 startBtn.addEventListener("click", startQuiz);
-
-// Used past class work and online resources to complete assighment 
