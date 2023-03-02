@@ -1,18 +1,18 @@
 const quizData = [
 	{
-		question: "What is the capital of France?",
-		choices: ["Paris", "London", "Berlin", "Rome"],
-		answer: "Paris"
+		question: "What does HTML stand for?",
+		choices: ["Hyper Text Markup Language", "High Tech Markup Language", "Hyperspace Text Markup Language", "Hyper Tool Markup Language"],
+		answer: "Hyper Text Markup Language"
 	},
 	{
-		question: "What is the largest country in the world?",
-		choices: ["Russia", "Canada", "China", "USA"],
-		answer: "Russia"
+		question: "What does CSS stand for?",
+		choices: ["Creative Style Sheets", "Cascading Style Sheets", "Computer Style Sheets", "Content Style Sheets"],
+		answer: "Cascading Style Sheets"
 	},
 	{
-		question: "What is the highest mountain in the world?",
-		choices: ["Mount Everest", "Mount Kilimanjaro", "Mount Fuji", "Mount Whitney"],
-		answer: "Mount Everest"
+		question: "What does JS stand for?",
+		choices: ["JavaStyle", "JavaSource", "JavaScript", "JavaServer"],
+		answer: "JavaScript"
 	}
 ];
 
@@ -25,21 +25,21 @@ const timeText = document.getElementById("time");
 
 let currentQuestion = 0;
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 30;
 
 function startQuiz() {
 	startBtn.classList.add("hidden");
 	quizDiv.classList.remove("hidden");
 	showQuestion();
 	let timer = setInterval(() => {
-		timeLeft--;
-		timeText.innerText = `Time: ${timeLeft}s`;
-		if (timeLeft === 0) {
-			clearInterval(timer);
-			endQuiz();
-		}
+	  timeLeft--;
+	  timeText.innerText = `Time: ${timeLeft}s`;
+	  if (timeLeft <= 0) { // Update this condition to handle negative time
+		clearInterval(timer);
+		endQuiz();
+	  }
 	}, 1000);
-}
+  }
 
 function showQuestion() {
 	const question = quizData[currentQuestion];
@@ -56,15 +56,17 @@ function checkAnswer(event) {
 	const selectedChoice = event.target.innerText;
 	const question = quizData[currentQuestion];
 	if (selectedChoice === question.answer) {
-		score++;
+	  score++;
+	} else {
+	  timeLeft -= 5; // Subtract 10 seconds for an incorrect answer
 	}
 	currentQuestion++;
 	if (currentQuestion < quizData.length) {
-		showQuestion();
+	  showQuestion();
 	} else {
-		endQuiz();
+	  endQuiz();
 	}
-}
+  }
 
 function endQuiz() {
 	quizDiv.innerHTML = `
@@ -74,3 +76,5 @@ function endQuiz() {
 }
 
 startBtn.addEventListener("click", startQuiz);
+
+// Used past classwork and online resources to complete this assighment
